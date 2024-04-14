@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\Auth\ProviderRequest;
 use App\Http\Requests\Api\V1\Auth\SignInRequest;
 use App\Http\Requests\Api\V1\Auth\SignUpRequest;
 use App\Http\Services\Api\V1\Auth\AuthService;
@@ -17,6 +18,9 @@ class AuthController extends Controller
 
     public function signUp(SignUpRequest $request) {
         return $this->auth->signUp($request);
+    }
+    public function provider(ProviderRequest $request) {
+        return $this->auth->provider($request);
     }
 
     public function signIn(SignInRequest $request) {
