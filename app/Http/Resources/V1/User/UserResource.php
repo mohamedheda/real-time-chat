@@ -21,6 +21,7 @@ class UserResource extends JsonResource
         return [
             'name' => $this->name,
             'email' => $this->email,
+            'image' => $this->when($this->image , $this->imageUrl),
             'token' => $this->when($this->withToken, $this->token()),
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,6 +22,7 @@ class User extends Authenticatable implements JWTSubject
     protected $fillable = [
         'name',
         'email',
+        'image',
         'password',
     ];
 
@@ -55,5 +57,9 @@ class User extends Authenticatable implements JWTSubject
     public function token()
     {
         return JWTAuth::fromUser($this);
+    }
+
+    public function imageUrl():Attribute {
+        return Attribute::make(get: fn() => url($this->image) );
     }
 }
