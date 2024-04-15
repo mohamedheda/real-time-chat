@@ -19,4 +19,9 @@ class UserRepository extends Repository implements UserRepositoryInterface
     {
         return $this->model::query()->where('is_active', true);
     }
+    public function getContacts(){
+        return $this->model::query()
+            ->whereNot('id',auth('api')->id())
+            ->get();
+    }
 }

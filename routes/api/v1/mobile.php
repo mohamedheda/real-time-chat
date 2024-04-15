@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\Auth\AuthController;
+use App\Http\Controllers\Api\V1\Contacts\ContactsController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'auth', 'controller' => AuthController::class], function () {
@@ -11,4 +12,7 @@ Route::group(['prefix' => 'auth', 'controller' => AuthController::class], functi
         Route::post('out', 'signOut');
     });
     Route::get('what-is-my-platform', 'whatIsMyPlatform'); // returns 'platform: mobile!'
+});
+Route::group(['middleware'=> 'auth:api'],function (){
+    Route::get('contacts' ,[ContactsController::class,'index']);
 });
