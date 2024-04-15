@@ -28,6 +28,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
             $query->where('name', 'LIKE', '%' . request()->search . '%')
                 ->orWhere('email', 'LIKE', '%' . request()->search . '%');
         }
+        $query->orderBy('name');
         return $query->get();
     }
 }

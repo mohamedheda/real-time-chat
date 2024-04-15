@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Repository\ChatRoomMemberRepositoryInterface;
+use App\Repository\ChatRoomRepositoryInterface;
+use App\Repository\Eloquent\ChatRoomMemberRepository;
+use App\Repository\Eloquent\ChatRoomRepository;
 use App\Repository\Eloquent\Repository;
 use App\Repository\Eloquent\UserRepository;
 use App\Repository\RepositoryInterface;
@@ -19,6 +23,8 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->singleton(RepositoryInterface::class, Repository::class);
         $this->app->singleton(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->singleton(ChatRoomRepositoryInterface::class, ChatRoomRepository::class);
+        $this->app->singleton(ChatRoomMemberRepositoryInterface::class, ChatRoomMemberRepository::class);
     }
 
     /**
