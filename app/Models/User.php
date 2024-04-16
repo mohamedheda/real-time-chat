@@ -62,7 +62,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function imageUrl(): Attribute
     {
-        return Attribute::make(get: fn() => url($this->image));
+        return Attribute::make(get: fn() => $this->image ? url($this->image) : null);
     }
 
 
@@ -70,7 +70,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(ChatRoomMember::class, 'user_id');
     }
-    public function rooms(){
-        return $this->hasManyThrough(ChatRoom::class,ChatRoomMember::class,'chat_room_id','id');
+
+    public function rooms()
+    {
+        return $this->hasManyThrough(ChatRoom::class, ChatRoomMember::class, 'chat_room_id', 'id');
     }
 }
