@@ -36,7 +36,7 @@ class ChatRoomRepository extends Repository implements ChatRoomRepositoryInterfa
                 $q->where('user_id', auth('api')->id());
             })
             ->whereHas('messages')
-            ->with('otherMember')
+            ->with('members')
             ->orderByDesc('updated_at')
             ->get();
     }

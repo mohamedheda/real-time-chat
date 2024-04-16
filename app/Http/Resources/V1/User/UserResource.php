@@ -22,7 +22,7 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'image' => $this->when($this->image , $this->imageUrl),
+            'image' => $this->imageUrl,
             'token' => $this->when($this->withToken, $this->token()),
         ];
     }
