@@ -23,7 +23,7 @@ class ChatRoomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['required' , Rule::exists('users','id')] ,
+            'user_id' => ['required', Rule::exists('users', 'id') ,],
         ];
     }
 }

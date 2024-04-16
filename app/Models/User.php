@@ -60,7 +60,17 @@ class User extends Authenticatable implements JWTSubject
         return JWTAuth::fromUser($this);
     }
 
-    public function imageUrl():Attribute {
-        return Attribute::make(get: fn() => url($this->image) );
+    public function imageUrl(): Attribute
+    {
+        return Attribute::make(get: fn() => url($this->image));
+    }
+
+
+    public function chatrooms()
+    {
+        return $this->hasMany(ChatRoomMember::class, 'user_id');
+    }
+    public function rooms(){
+        return $this->hasManyThrough(ChatRoom::class,ChatRoomMember::class,'chat_room_id','id');
     }
 }

@@ -12,17 +12,33 @@ class ChatRoomRepository extends Repository implements ChatRoomRepositoryInterfa
     {
         parent::__construct($model);
     }
-    public function checkRoomExist($user_id){
+
+    public function checkRoomExist($user_id)
+    {
         return $this->model::query()
-                    ->whereHas('members',function ($q) use ($user_id) {
-                        $q->where('user_id',$user_id);
-                    })->exists();
+            ->whereHas('members', function ($q) use ($user_id) {
+                $q->where('user_id', $user_id);
+            })->exists();
     }
-    public function getRoom($user_id){
+
+    public function getRoom($user_id)
+    {
         return $this->model::query()
-            ->whereHas('members',function ($q) use ($user_id) {
-                $q->where('user_id',$user_id);
+            ->whereHas('members', function ($q) use ($user_id) {
+                $q->where('user_id', $user_id);
             })->first();
+    }
+
+    public function getRooms()
+    {
+        return $this->model::query()
+            ->whereHas('members', function ($q)  {
+                $q->where('user_id', auth('api')->id());
+            })
+            ->whereHas('messages')
+            ->with('otherMember')
+            ->orderByDesc('updated_at')
+            ->get();
     }
 
 }

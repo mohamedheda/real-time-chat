@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\ChatRoom\ChatRoomController;
 use App\Http\Controllers\Api\V1\Contacts\ContactsController;
+use App\Http\Controllers\Api\V1\Message\MessageController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'auth', 'controller' => AuthController::class], function () {
@@ -16,5 +17,8 @@ Route::group(['prefix' => 'auth', 'controller' => AuthController::class], functi
 });
 Route::group(['middleware'=> 'auth:api'],function (){
     Route::get('contacts' ,[ContactsController::class,'index']);
+    Route::get('unread/{chat_room}/reset' ,[ChatRoomController::class,'resetUnread']);
     Route::post('chatroom' ,[ChatRoomController::class,'create']);
+    Route::get('chatroom' ,[ChatRoomController::class,'index']);
+    Route::post('message' ,[MessageController::class,'create']);
 });
