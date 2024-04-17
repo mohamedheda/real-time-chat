@@ -14,13 +14,13 @@ class ChatRoomController extends Controller
     ){
 
     }
-    public function index(){
-        return $this->chatRoomService->index();
-    }
     public function create(ChatRoomRequest $request){
         return $this->chatRoomService->create($request);
     }
     public function resetUnread($room_id){
         return $this->chatRoomService->resetUnread($room_id);
+    }
+    public function destroy($room_id){
+        return $this->chatRoomService->destroy($room_id);
     }
 }

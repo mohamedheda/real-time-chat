@@ -169,5 +169,10 @@ return [
     'This purchase order cannot be delayed' => 'This purchase order cannot be delayed.',
     'The purchase order has been created and will be published after review' => 'The purchase order has been created and will be published after review.',
     'Your inquiry has been submitted and will be published after review' => 'Your inquiry has been submitted and will be published after review.',
-
+    'text' => 'text' ,
+    'image' => 'image' ,
+    'record' => 'record' ,
+    'file' => 'image' ,
+    'online' => 'online' ,
+    'offline' => 'offline' ,
 ];

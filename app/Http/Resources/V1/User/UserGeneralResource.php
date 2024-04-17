@@ -5,7 +5,7 @@ namespace App\Http\Resources\V1\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class UserGeneralResource extends JsonResource
 {
     public function __construct($resource, private readonly bool $withToken)
     {
@@ -21,11 +21,9 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'email' => $this->email,
             'image' => $this->imageUrl,
             'is_active' => $this->when($this->isActive , $this->isActive),
             'last_seen' => $this->lastSeenValue ,
-            'token' => $this->when($this->withToken, $this->token()),
         ];
     }
 }

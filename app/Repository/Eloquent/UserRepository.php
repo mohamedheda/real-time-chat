@@ -4,6 +4,7 @@ namespace App\Repository\Eloquent;
 
 use App\Models\User;
 use App\Repository\UserRepositoryInterface;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class UserRepository extends Repository implements UserRepositoryInterface
@@ -30,5 +31,11 @@ class UserRepository extends Repository implements UserRepositoryInterface
         }
         $query->orderBy('name');
         return $query->get();
+    }
+
+    public function updateLastSeen()
+    {
+        return $this->model::query()->where('id', auth('api')->id())
+            ->update(['last_seen' => Carbon::now()]);
     }
 }

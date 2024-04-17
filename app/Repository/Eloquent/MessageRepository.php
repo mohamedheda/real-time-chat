@@ -12,4 +12,11 @@ class MessageRepository extends Repository implements MessageRepositoryInterface
     {
         parent::__construct($model);
     }
+    public function loadMoreMessages($chat_room_id, $last_message_id){
+        return $this->model::query()
+                    ->where('chat_room_id',$chat_room_id)
+                    ->where('id','<',$last_message_id)
+                    ->limit(20)
+                    ->get();
+    }
 }

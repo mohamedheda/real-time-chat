@@ -19,7 +19,7 @@ class GetService
             return $this->responseSuccess(message: $message, data: $records);
         } catch (Exception $e) {
             Log::error('CATCH: '. $e);
-//            return $e;
+            return $e;
             return $this->responseFail(status: 404, message: __('messages.No data found'));
         }
     }

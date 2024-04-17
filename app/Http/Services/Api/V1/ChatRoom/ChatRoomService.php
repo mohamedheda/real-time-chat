@@ -2,13 +2,17 @@
 
 namespace App\Http\Services\Api\V1\ChatRoom;
 
+use App\Events\DeleteChatroomEvent;
+use App\Http\Resources\V1\ChatRoom\ChatRoomGeneralResource;
 use App\Http\Resources\V1\ChatRoom\ChatRoomResource;
+use App\Http\Services\Mutual\GetService;
 use App\Http\Traits\Responser;
 use App\Http\Traits\UnReadtrait;
 use App\Repository\ChatRoomMemberRepositoryInterface;
 use App\Repository\ChatRoomRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class ChatRoomService
 {
@@ -18,6 +22,7 @@ class ChatRoomService
         private readonly ChatRoomRepositoryInterface       $chatRoomRepository,
         private readonly ChatRoomMemberRepositoryInterface $memberRepository,
         private readonly UserRepositoryInterface           $userRepository,
+        private readonly GetService           $getService,
     )
     {
 
@@ -25,8 +30,8 @@ class ChatRoomService
 
     public function index()
     {
-//        return $this->userRepository->getById(auth('api')->id(),relations: ['chatrooms.room.otherMember']);
-        return $this->chatRoomRepository->getRooms();
+        return $this->getService->handle(
+            ChatRoomGeneralResource::class,$this->chatRoomRepository,'getRooms');
     }
 
     public function create($request)
@@ -69,5 +74,23 @@ class ChatRoomService
     {
         $this->updateUnReadCount($room_id);
         return $this->responseSuccess();
+    }
+    public function destroy($room_id){
+        try {
+            DB::beginTransaction();
+            if(! Gate::allows('delete-chat',$room_id))
+                return $this->responseFail(message: __('messages.You are not authorized to access this resource'));
+            $room=$this->chatRoomRepository->getById($room_id ,relations: ['members','messages']);
+            $room->messages()?->delete();
+            $room->members()?->delete();
+            $room->delete();
+            broadcast(new DeleteChatroomEvent($room_id))->toOthers();
+            DB::commit();
+            return $this->responseSuccess(message: __('messages.deleted_successfully'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+//            return $e;
+            return $this->responseFail(message: __('messages.Something went wrong'));
+        }
     }
 }

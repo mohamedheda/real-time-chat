@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\ChatRoom\ChatRoomController;
 use App\Http\Controllers\Api\V1\Contacts\ContactsController;
+use App\Http\Controllers\Api\V1\Home\HomeController;
 use App\Http\Controllers\Api\V1\Message\MessageController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,8 +18,10 @@ Route::group(['prefix' => 'auth', 'controller' => AuthController::class], functi
 });
 Route::group(['middleware'=> 'auth:api'],function (){
     Route::get('contacts' ,[ContactsController::class,'index']);
+    Route::delete('chatroom/{chat_room}' ,[ChatRoomController::class,'destroy']);
     Route::get('unread/{chat_room}/reset' ,[ChatRoomController::class,'resetUnread']);
     Route::post('chatroom' ,[ChatRoomController::class,'create']);
-    Route::get('chatroom' ,[ChatRoomController::class,'index']);
+    Route::get('home' ,[HomeController::class,'index']);
     Route::post('message' ,[MessageController::class,'create']);
+    Route::post('load-more' ,[MessageController::class,'loadMore']);
 });

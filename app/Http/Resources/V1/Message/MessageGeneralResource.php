@@ -2,11 +2,10 @@
 
 namespace App\Http\Resources\V1\Message;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class MessageResource extends JsonResource
+class MessageGeneralResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,7 +18,6 @@ class MessageResource extends JsonResource
             'id' => $this->id ,
             'type' => $this->type ,
             'content' => $this->content ,
-            'user_id' => $this->user_id ,
             'created_at' => $this->createdTime ,
             'direction' => $this->direction ,
         ];

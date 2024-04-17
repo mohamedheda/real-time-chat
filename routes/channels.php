@@ -18,5 +18,13 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 });
 
 Broadcast::channel('private.chatroom.{room_id}', function ($user, $room_id) {
-    return $user->chatrooms?->contain('chat_room_id',$room_id);
+    return $user->chatrooms()?->where('chat_room_id', $room_id)->exists();
+});
+
+Broadcast::channel('private.chatrooms.{user_id}', function ($user) {
+    return $user->chatrooms()?->exists();
+});
+
+Broadcast::channel('private.chatrooms.delete.{user_id}', function ($user) {
+    return $user->chatrooms()?->exists();
 });
